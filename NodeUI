@@ -1,0 +1,53 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+using TMPro;
+
+public class NodeUI : MonoBehaviour
+{
+    public GameObject uinode;
+
+    public TextMeshProUGUI upgradeCost;
+
+    public Button upgradebutton;
+
+    private PlataformaBuildeable target;
+
+    public void SetTarget(PlataformaBuildeable _target)
+    {
+
+       target = _target;
+
+        transform.position = target.GetBuildPosition();
+
+        if (!target.isUpgraded)
+        {
+            upgradeCost.text = "$" + target.turretBlueprint.upgradeCost;
+            upgradebutton.interactable = true;
+
+        }else 
+        { 
+            upgradeCost.text = "--MAX--";
+            upgradebutton.interactable = false;
+        }
+        
+
+
+        uinode.SetActive(true);
+    }
+
+    public void Hide()
+    {
+
+        uinode.SetActive(false);
+    }
+
+    public void Upgrade()
+    {
+
+        target.UpgradeTurret();
+        BuildManager.instance.DeselectNode();
+
+    }
+}
